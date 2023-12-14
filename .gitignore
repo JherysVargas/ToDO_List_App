@@ -3,6 +3,9 @@
 *.log
 *.pyc
 *.swp
+*.g.dart
+*.gr.dart
+*.config.dart
 .DS_Store
 .atom/
 .buildlog/
