@@ -1,15 +1,22 @@
 part of 'auth_cubit.dart';
 
-sealed class AuthState {}
+enum AuthStatus { initial, loading, success, error }
 
-final class AuthInitial extends AuthState {}
+final class AuthState extends Equatable {
+  const AuthState({
+    this.status = AuthStatus.initial,
+  });
 
-final class AuthLoading extends AuthState {}
+  final AuthStatus status;
 
-final class AuthSuccess extends AuthState {}
+  AuthState copyWith({
+    AuthStatus? status,
+  }) {
+    return AuthState(
+      status: status ?? this.status,
+    );
+  }
 
-final class AuthError extends AuthState {
-  final String message;
-
-  AuthError(this.message);
+  @override
+  List<Object?> get props => [status];
 }

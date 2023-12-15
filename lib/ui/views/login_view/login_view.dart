@@ -16,6 +16,10 @@ class LoginView extends StatelessWidget {
       body: SafeArea(
         child: BlocListener<AuthCubit, AuthState>(
           listener: _validateState,
+          listenWhen: (_, current) {
+            return current.status == AuthStatus.error ||
+                current.status == AuthStatus.success;
+          },
           child: const SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: EdgeInsets.fromLTRB(20, 80, 20, 20),
@@ -33,16 +37,16 @@ class LoginView extends StatelessWidget {
   }
 
   void _validateState(BuildContext context, AuthState state) {
-    if (state is AuthError) {
+    if (state.status == AuthStatus.error) {
       SnackBarFloating.show(
-        message: state.message,
+        message: 'Error al iniciar sesión',
         context: context,
         snackBarType: SnackBarType.error,
       );
       return;
     }
 
-    if (state is AuthSuccess) {
+    if (state.status == AuthStatus.success) {
       Navigator.of(context).pushReplacementNamed('taskList');
       return;
     }

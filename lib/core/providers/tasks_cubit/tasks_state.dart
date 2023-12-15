@@ -1,49 +1,30 @@
 part of 'tasks_cubit.dart';
 
-sealed class TasksState {
+enum TasksStatus { initial, loading, success, error }
+
+final class TasksState extends Equatable {
+  const TasksState({
+    this.selectedDate,
+    this.currentMonth,
+    this.status = TasksStatus.initial,
+  });
+
+  final TasksStatus status;
   final DateTime? selectedDate;
   final DateTime? currentMonth;
 
-  TasksState({
-    this.selectedDate,
-    this.currentMonth,
-  });
-
   TasksState copyWith({
-    DateTime? selectedDate,
-    DateTime? currentMonth,
-  });
-}
-
-final class TaskInitial extends TasksState {
-  TaskInitial({
-    DateTime? selectedDate,
-    DateTime? currentMonth,
-  }) : super(selectedDate: selectedDate, currentMonth: currentMonth);
-
-  @override
-  TaskInitial copyWith({
+    TasksStatus? status,
     DateTime? selectedDate,
     DateTime? currentMonth,
   }) {
-    return TaskInitial(
+    return TasksState(
+      status: status ?? this.status,
       selectedDate: selectedDate ?? this.selectedDate,
       currentMonth: currentMonth ?? this.currentMonth,
     );
   }
-}
 
-final class TaskCreateLoading extends TasksState {
   @override
-  TasksState copyWith({DateTime? selectedDate, DateTime? currentMonth}) => this;
-}
-
-final class TaskCreateSuccess extends TasksState {
-  @override
-  TasksState copyWith({DateTime? selectedDate, DateTime? currentMonth}) => this;
-}
-
-final class TaskCreateError extends TasksState {
-  @override
-  TasksState copyWith({DateTime? selectedDate, DateTime? currentMonth}) => this;
+  List<Object?> get props => [selectedDate, currentMonth, status];
 }

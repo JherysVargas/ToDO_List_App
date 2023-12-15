@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/domain/use_cases/auth/auth_use_cases.dart';
 
@@ -6,30 +7,26 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final AuthUseCase authUseCase;
 
-  AuthCubit({required this.authUseCase}) : super(AuthInitial());
+  AuthCubit({required this.authUseCase}) : super(const AuthState());
 
   Future<void> login(String email, String password) async {
-    emit(AuthLoading());
-    try {
-      final bool result = await authUseCase.login(email, password);
+    emit(state.copyWith(status: AuthStatus.loading));
+    final bool result = await authUseCase.login(email, password);
 
-      if (result) {
-        emit(AuthSuccess());
-      } else {
-        emit(AuthError('Error al iniciar sesión'));
-      }
-    } catch (e) {
-      emit(AuthError(e.toString()));
+    if (result) {
+      emit(state.copyWith(status: AuthStatus.success));
+    } else {
+      emit(state.copyWith(status: AuthStatus.error));
     }
   }
 
   Future<void> signOut() async {
-    emit(AuthLoading());
+    emit(state.copyWith(status: AuthStatus.loading));
     try {
       await authUseCase.signOut();
-      emit(AuthSuccess());
+      emit(state.copyWith(status: AuthStatus.success));
     } catch (e) {
-      emit(AuthError(e.toString()));
+      emit(state.copyWith(status: AuthStatus.error));
     }
   }
 }

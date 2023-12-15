@@ -117,10 +117,10 @@ class _FormCreateTaskState extends State<FormCreateTask> {
             },
           ),
           const SizedBox(height: 60),
-          BlocSelector<TaskCubit, TasksState, bool>(
-            selector: (state) => state is TaskCreateLoading,
-            builder: (_, loading) {
-              if (loading) {
+          BlocSelector<TaskCubit, TasksState, TasksStatus>(
+            selector: (state) => state.status,
+            builder: (_, status) {
+              if (status == TasksStatus.loading) {
                 return const ActivityIndicator();
               }
               return _buildButton();

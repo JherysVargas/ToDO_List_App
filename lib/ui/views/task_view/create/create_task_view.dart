@@ -11,6 +11,10 @@ class CreateTaskView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<TaskCubit, TasksState>(
       listener: _validateResponseCreateTask,
+      listenWhen: (previous, current) {
+        return current.status == TasksStatus.error ||
+            current.status == TasksStatus.success;
+      },
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -27,9 +31,9 @@ class CreateTaskView extends StatelessWidget {
   }
 
   void _validateResponseCreateTask(BuildContext context, TasksState state) {
-    if (state is TaskCreateSuccess) {
+    if (state.status == TasksStatus.success) {
       Navigator.pop(context);
-    } else if (state is TaskCreateError) {
+    } else if (state.status == TasksStatus.error) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error al crear la tarea'),

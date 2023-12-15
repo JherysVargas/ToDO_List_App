@@ -71,7 +71,7 @@ class _FormLoginState extends State<FormLogin> {
           const SizedBox(height: 60),
           BlocBuilder<AuthCubit, AuthState>(
             builder: (_, state) {
-              if (state is AuthLoading) {
+              if (state.status == AuthStatus.loading) {
                 return const ActivityIndicator();
               }
               return _buildButton();
