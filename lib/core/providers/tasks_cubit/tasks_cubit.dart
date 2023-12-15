@@ -59,4 +59,8 @@ class TaskCubit extends Cubit<TasksState> {
       emit(state.copyWith(status: TasksStatus.error));
     }
   }
+
+  void deleteTask(DocumentReference reference) async {
+    await taskUseCase.delete(reference);
+  }
 }

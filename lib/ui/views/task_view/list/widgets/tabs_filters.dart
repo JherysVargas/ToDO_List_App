@@ -12,10 +12,7 @@ class TabsFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       isScrollable: true,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
+      padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
       dividerColor: Colors.transparent,
       labelColor: ColorsAppTheme.secondary,
       unselectedLabelColor: ColorsAppTheme.content.shade300,

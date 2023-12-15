@@ -25,4 +25,6 @@ class TaskUseCase {
 
   Future<bool> update(DocumentReference ref, Map<String, dynamic> data) =>
       _taskGateway.update(ref, data);
+
+  Future<bool> delete(DocumentReference ref) => _taskGateway.delete(ref);
 }

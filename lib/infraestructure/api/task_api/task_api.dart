@@ -70,4 +70,15 @@ class TaskImpl extends TaskGateway {
       return false;
     }
   }
+
+  @override
+  Future<bool> delete(DocumentReference ref) async {
+    try {
+      await ref.delete();
+      return true;
+    } on FirebaseException catch (e) {
+      _logger.e(e.message);
+      return false;
+    }
+  }
 }

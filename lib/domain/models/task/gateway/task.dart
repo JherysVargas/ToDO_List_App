@@ -12,4 +12,6 @@ abstract class TaskGateway {
   Future<bool> createTask(Map<String, dynamic> data);
 
   Future<bool> update(DocumentReference ref, Map<String, dynamic> data);
+
+  Future<bool> delete(DocumentReference ref);
 }
