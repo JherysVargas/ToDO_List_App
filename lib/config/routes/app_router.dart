@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo/core/helpers/fade_route_builder.dart';
-import 'package:todo/ui/views/task_view/create/create_task_view.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:todo/ui/views/login_view/login_view.dart';
 import 'package:todo/ui/views/task_view/list/task_list_view.dart';
 
@@ -11,10 +10,7 @@ class RouterGenerator {
         builder: (_) => const LoginView(),
       ),
       'taskList': MaterialPageRoute(
-        builder: (_) => const TaskListView(),
-      ),
-      'createTask': FadeRouteBuilder(
-        page: const CreateTaskView(),
+        builder: (_) => const CupertinoScaffold(body: TaskListView()),
       ),
     };
 

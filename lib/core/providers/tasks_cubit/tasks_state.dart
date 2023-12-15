@@ -32,3 +32,18 @@ final class TaskInitial extends TasksState {
     );
   }
 }
+
+final class TaskCreateLoading extends TasksState {
+  @override
+  TasksState copyWith({DateTime? selectedDate, DateTime? currentMonth}) => this;
+}
+
+final class TaskCreateSuccess extends TasksState {
+  @override
+  TasksState copyWith({DateTime? selectedDate, DateTime? currentMonth}) => this;
+}
+
+final class TaskCreateError extends TasksState {
+  @override
+  TasksState copyWith({DateTime? selectedDate, DateTime? currentMonth}) => this;
+}

@@ -8,7 +8,7 @@ class TaskImpl extends TaskGateway {
   final Logger _logger;
   final FirebaseFirestore _firestore;
 
-  final _keyCollection = "sales";
+  final _keyCollection = "tasks";
 
   TaskImpl(this._firestore, this._logger);
 
@@ -26,6 +26,17 @@ class TaskImpl extends TaskGateway {
     } on FirebaseException catch (e) {
       _logger.e(e.message);
       return null;
+    }
+  }
+
+  @override
+  Future<bool> createTask(Map<String, dynamic> data) async {
+    try {
+      await _firestore.collection(_keyCollection).add(data);
+      return true;
+    } on FirebaseException catch (e) {
+      _logger.e(e.message);
+      return false;
     }
   }
 }

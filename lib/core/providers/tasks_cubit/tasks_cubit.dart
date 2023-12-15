@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/domain/models/task/task.dart';
 import 'package:todo/domain/use_cases/task/task_use_cases.dart';
 
 part 'tasks_state.dart';
@@ -17,5 +18,16 @@ class TaskCubit extends Cubit<TasksState> {
 
   void changeMonth(DateTime currentMonth) {
     emit(state.copyWith(currentMonth: currentMonth));
+  }
+
+  void createTask(TaskModel task) async {
+    emit(TaskCreateLoading());
+    final response = await taskUseCase.createTask(task.toJson());
+
+    if (response) {
+      emit(TaskCreateSuccess());
+    } else {
+      emit(TaskCreateError());
+    }
   }
 }

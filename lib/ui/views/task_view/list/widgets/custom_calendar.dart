@@ -21,16 +21,16 @@ class _CustomCalendarState extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocSelector<TaskCubit, TasksState, DateTime>(
+        BlocSelector<TaskCubit, TasksState, DateTime?>(
           selector: (state) {
-            return state.selectedDate ?? DateTime.now();
+            return state.selectedDate;
           },
           builder: (context, selectedDate) {
             return TableCalendar(
               rowHeight: _kHeightItemCalendar,
-              focusedDay: selectedDate,
+              focusedDay: selectedDate ?? DateTime.now(),
               firstDay: DateTime.now(),
-              lastDay: _getLastDayOfMonth(),
+              lastDay: _getMaxDate(),
               onPageChanged: (focusedDay) {
                 context.read<TaskCubit>().changeMonth(focusedDay);
               },
@@ -53,15 +53,17 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 context.read<TaskCubit>().selectedDate(selectedDay);
               },
               calendarBuilders: CalendarBuilders(
-                todayBuilder: (context, dateTimeNow, datetime) {
+                todayBuilder: (context, day, focusedDay) {
                   return _buildItemCalendar(
-                    date: dateTimeNow,
-                    color: ColorsAppTheme.grey.shade300,
+                    date: day,
+                    color: isSameDay(day, focusedDay)
+                        ? ColorsAppTheme.primary
+                        : ColorsAppTheme.grey.shade300,
                   );
                 },
-                defaultBuilder: (context, dateTime, date) {
+                defaultBuilder: (context, day, focusedDay) {
                   return _buildItemCalendar(
-                    date: dateTime,
+                    date: day,
                   );
                 },
                 selectedBuilder: (context, day, focusedDay) {
@@ -90,7 +92,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     );
   }
 
-  DateTime _getLastDayOfMonth() {
+  DateTime _getMaxDate() {
     final currentDate = DateTime.now();
 
     return Jiffy.parseFromDateTime(

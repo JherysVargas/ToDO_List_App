@@ -12,6 +12,7 @@ part 'task.g.dart';
 class TaskModel {
   const TaskModel({
     this.reference,
+    this.date,
     this.createdAt,
     this.title = "",
     this.description = "",
@@ -22,20 +23,26 @@ class TaskModel {
   final String description;
   final TaskStatus status;
 
+  @JsonKey(includeToJson: false)
   @DocumentReferenceConverter()
   final DocumentReference? reference;
 
   @TimestampConverter()
   final DateTime? createdAt;
 
+  @TimestampConverter()
+  final DateTime? date;
+
   TaskModel copyWith({
     TaskStatus? status,
     DocumentReference? reference,
+    DateTime? date,
     DateTime? createdAt,
     String? title,
     String? description,
   }) =>
       TaskModel(
+        date: date ?? this.date,
         status: status ?? this.status,
         reference: reference ?? this.reference,
         title: title ?? this.title,

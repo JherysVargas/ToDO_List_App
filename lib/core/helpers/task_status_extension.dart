@@ -3,7 +3,7 @@ import 'package:todo/config/theme/colors_theme.dart';
 import 'package:todo/core/enums/task.dart';
 
 extension TaskStatusExtension on TaskStatus {
-  String get name {
+  String get label {
     switch (this) {
       case TaskStatus.pending:
         return 'Pendiente';

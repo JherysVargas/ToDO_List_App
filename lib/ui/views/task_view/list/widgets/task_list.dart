@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/config/theme/colors_theme.dart';
 import 'package:todo/core/enums/task.dart';
-import 'package:todo/domain/models/task/task.dart';
+import 'package:todo/core/helpers/task_status_extension.dart';
+import 'package:todo/core/providers/tasks_cubit/tasks_cubit.dart';
 
-import 'item_task.dart';
+import 'stream_list_task.dart';
+
+const List<TaskStatus> _tabs = [
+  TaskStatus.pending,
+  TaskStatus.completed,
+];
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});
@@ -19,7 +26,7 @@ class _TaskListState extends State<TaskList>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: _tabs.length, vsync: this);
   }
 
   @override
@@ -50,59 +57,21 @@ class _TaskListState extends State<TaskList>
                   ),
                 ),
               ),
-              tabs: const [
-                Tab(
-                  text: 'Pendientes',
-                ),
-                Tab(
-                  text: 'Completados',
-                ),
-              ],
+              tabs: List.generate(
+                _tabs.length,
+                (index) => Tab(text: _tabs[index].label),
+              ),
             ),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  ListView.separated(
-                    itemCount: 10,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 20,
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
-                    itemBuilder: (context, index) {
-                      final task = TaskModel(
-                        title: 'Title',
-                        description: 'Description',
-                        status: index.isEven
-                            ? TaskStatus.completed
-                            : TaskStatus.pending,
-                      );
-
-                      return ItemTask(task: task);
-                    },
+                  StreamListTask(
+                    stream: context.read<TaskCubit>().getTask(),
                   ),
-                  ListView.separated(
-                    itemCount: 10,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 20,
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
-                    itemBuilder: (context, index) {
-                      final task = TaskModel(
-                        title: 'Title',
-                        description: 'Description',
-                        status: index.isEven
-                            ? TaskStatus.completed
-                            : TaskStatus.pending,
-                      );
-
-                      return ItemTask(task: task);
-                    },
-                  )
+                  StreamListTask(
+                    stream: context.read<TaskCubit>().getTask(),
+                  ),
                 ],
               ),
             ),

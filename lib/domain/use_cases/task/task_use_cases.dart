@@ -7,4 +7,6 @@ class TaskUseCase {
   final TaskGateway _taskGateway;
   TaskUseCase(this._taskGateway);
   Stream<QuerySnapshot<Object?>>? getTask() => _taskGateway.getTask();
+  Future<bool> createTask(Map<String, dynamic> data) =>
+      _taskGateway.createTask(data);
 }
