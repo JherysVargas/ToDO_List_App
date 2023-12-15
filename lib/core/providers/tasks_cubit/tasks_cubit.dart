@@ -11,7 +11,23 @@ class TaskCubit extends Cubit<TasksState> {
 
   TaskCubit({required this.taskUseCase}) : super(const TasksState());
 
-  Stream<QuerySnapshot>? getTask() => taskUseCase.getTask();
+  DateTime _getInitDate() {
+    final date = state.selectedDate ?? DateTime.now();
+
+    return DateTime(date.year, date.month, date.day, 0, 0, 0);
+  }
+
+  DateTime _getEndDate() {
+    final date = state.selectedDate ?? DateTime.now();
+
+    return DateTime(date.year, date.month, date.day, 23, 59, 59);
+  }
+
+  Stream<QuerySnapshot>? getTask() =>
+      taskUseCase.getTask(_getInitDate(), _getEndDate());
+
+  Stream<QuerySnapshot>? getTaskByStatus(List<String> status) =>
+      taskUseCase.getTaskByStatus(status, _getInitDate(), _getEndDate());
 
   void selectedDate(DateTime selectedDate) {
     emit(state.copyWith(selectedDate: selectedDate));
@@ -24,6 +40,18 @@ class TaskCubit extends Cubit<TasksState> {
   void createTask(TaskModel task) async {
     emit(state.copyWith(status: TasksStatus.loading));
     final response = await taskUseCase.createTask(task.toJson());
+
+    if (response) {
+      emit(state.copyWith(status: TasksStatus.success));
+    } else {
+      emit(state.copyWith(status: TasksStatus.error));
+    }
+  }
+
+  void updateTask(
+      DocumentReference reference, Map<String, dynamic> data) async {
+    emit(state.copyWith(status: TasksStatus.loading));
+    final response = await taskUseCase.update(reference, data);
 
     if (response) {
       emit(state.copyWith(status: TasksStatus.success));

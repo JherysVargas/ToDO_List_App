@@ -56,7 +56,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 todayBuilder: (context, day, focusedDay) {
                   return _buildItemCalendar(
                     date: day,
-                    color: isSameDay(day, focusedDay)
+                    color: isSameDay(day, (selectedDate ?? focusedDay))
                         ? ColorsAppTheme.primary
                         : ColorsAppTheme.grey.shade300,
                   );

@@ -8,19 +8,39 @@ class TaskImpl extends TaskGateway {
   final Logger _logger;
   final FirebaseFirestore _firestore;
 
-  final _keyCollection = "tasks";
+  static const _keyCollection = "tasks";
 
   TaskImpl(this._firestore, this._logger);
 
   @override
-  Stream<QuerySnapshot>? getTask() {
+  Stream<QuerySnapshot>? getTask(DateTime initDate, DateTime endDate) {
     try {
       return _firestore
           .collection(_keyCollection)
-          // .where("deliveryStatus", whereIn: [
-          //   DeliveryStatus.pending.value.status,
-          //   DeliveryStatus.inProgress.value.status,
-          // ])
+          .where('date', isGreaterThanOrEqualTo: initDate)
+          .where('date', isLessThanOrEqualTo: endDate)
+          .orderBy('date', descending: true)
+          .orderBy("createdAt", descending: true)
+          .snapshots();
+    } on FirebaseException catch (e) {
+      _logger.e(e.message);
+      return null;
+    }
+  }
+
+  @override
+  Stream<QuerySnapshot>? getTaskByStatus(
+    List<String> status,
+    DateTime initDate,
+    DateTime endDate,
+  ) {
+    try {
+      return _firestore
+          .collection(_keyCollection)
+          .where('date', isGreaterThanOrEqualTo: initDate)
+          .where('date', isLessThanOrEqualTo: endDate)
+          .where("status", whereIn: status)
+          .orderBy('date', descending: true)
           .orderBy("createdAt", descending: true)
           .snapshots();
     } on FirebaseException catch (e) {
@@ -33,6 +53,17 @@ class TaskImpl extends TaskGateway {
   Future<bool> createTask(Map<String, dynamic> data) async {
     try {
       await _firestore.collection(_keyCollection).add(data);
+      return true;
+    } on FirebaseException catch (e) {
+      _logger.e(e.message);
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> update(DocumentReference ref, Map<String, dynamic> data) async {
+    try {
+      await ref.update(data);
       return true;
     } on FirebaseException catch (e) {
       _logger.e(e.message);

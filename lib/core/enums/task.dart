@@ -1,9 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
-
 enum TaskStatus {
-  @JsonValue('COMPLETED')
-  completed,
+  completed('COMPLETED'),
+  pending('PENDING');
 
-  @JsonValue('PENDING')
-  pending,
+  const TaskStatus(this.value);
+  final String value;
 }

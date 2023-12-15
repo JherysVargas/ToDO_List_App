@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:todo/config/theme/colors_theme.dart';
 import 'package:todo/ui/views/task_view/create/create_task_view.dart';
@@ -10,13 +11,6 @@ import 'widgets/title_app_bar.dart';
 
 class TaskListView extends StatelessWidget {
   const TaskListView({super.key});
-
-  void _onTap(BuildContext context) async {
-    CupertinoScaffold.showCupertinoModalBottomSheet(
-      context: context,
-      builder: (context) => const CreateTaskView(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +36,15 @@ class TaskListView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _onTap(context),
         backgroundColor: ColorsAppTheme.primary,
-        child: const Icon(Icons.add, color: ColorsAppTheme.content),
+        child: const Icon(Feather.plus, color: ColorsAppTheme.content),
       ),
+    );
+  }
+
+  void _onTap(BuildContext context) async {
+    CupertinoScaffold.showCupertinoModalBottomSheet(
+      context: context,
+      builder: (context) => const CreateTaskView(),
     );
   }
 }
