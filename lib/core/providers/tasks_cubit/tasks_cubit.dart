@@ -10,4 +10,12 @@ class TaskCubit extends Cubit<TasksState> {
   TaskCubit({required this.taskUseCase}) : super(TaskInitial());
 
   Stream<QuerySnapshot>? getTask() => taskUseCase.getTask();
+
+  void selectedDate(DateTime selectedDate) {
+    emit(state.copyWith(selectedDate: selectedDate));
+  }
+
+  void changeMonth(DateTime currentMonth) {
+    emit(state.copyWith(currentMonth: currentMonth));
+  }
 }

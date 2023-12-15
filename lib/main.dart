@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         initialRoute:
-            injector.get<FirebaseAuth>().currentUser != null ? 'home' : '/',
+            injector.get<FirebaseAuth>().currentUser != null ? 'taskList' : '/',
         theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouterGenerator.generateRoute,

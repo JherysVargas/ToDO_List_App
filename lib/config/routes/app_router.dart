@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo/ui/views/home_view/home_view.dart';
+import 'package:todo/core/helpers/fade_route_builder.dart';
+import 'package:todo/ui/views/task_view/create/create_task_view.dart';
 import 'package:todo/ui/views/login_view/login_view.dart';
+import 'package:todo/ui/views/task_view/list/task_list_view.dart';
 
 class RouterGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -8,8 +10,11 @@ class RouterGenerator {
       '/': MaterialPageRoute(
         builder: (_) => const LoginView(),
       ),
-      'home': MaterialPageRoute(
-        builder: (_) => const HomeView(),
+      'taskList': MaterialPageRoute(
+        builder: (_) => const TaskListView(),
+      ),
+      'createTask': FadeRouteBuilder(
+        page: const CreateTaskView(),
       ),
     };
 

@@ -44,7 +44,7 @@ class _FormLoginState extends State<FormLogin> {
         children: [
           TextFormInput(
             controller: _emailController,
-            hintText: 'Ingrese usuario',
+            hintText: 'Correo electrónico',
             textInputAction: TextInputAction.done,
             validator: (String? value) {
               if (value!.isEmpty) {

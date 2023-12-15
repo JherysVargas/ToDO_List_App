@@ -43,7 +43,7 @@ class LoginView extends StatelessWidget {
     }
 
     if (state is AuthSuccess) {
-      Navigator.of(context).pushReplacementNamed('home');
+      Navigator.of(context).pushReplacementNamed('taskList');
       return;
     }
   }

@@ -5,16 +5,17 @@ import 'colors_theme.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
-    primaryColor: ColorsAppTheme.primary,
     brightness: Brightness.light,
     appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle.dark,
+      iconTheme: IconThemeData(color: ColorsAppTheme.content),
     ),
     colorScheme: const ColorScheme.light().copyWith(
-      background: Colors.white,
+      background: ColorsAppTheme.grey.shade100,
       brightness: Brightness.light,
       primary: ColorsAppTheme.primary,
       secondary: ColorsAppTheme.secondary,
+      tertiary: ColorsAppTheme.content,
     ),
   );
 }
