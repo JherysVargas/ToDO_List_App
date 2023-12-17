@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/config/theme/colors_theme.dart';
 import 'package:todo/domain/models/task/task.dart';
 import 'package:todo/ui/widgets/activity_indicator.dart';
 
 import 'item_task.dart';
 
 class StreamListTask extends StatelessWidget {
-  const StreamListTask({super.key, this.stream});
+  const StreamListTask({super.key, this.stream, required this.emptyText});
 
+  final String emptyText;
   final Stream<QuerySnapshot<Object?>>? stream;
 
   @override
@@ -26,7 +28,15 @@ class StreamListTask extends StatelessWidget {
         final List<QueryDocumentSnapshot?> tasks = snapshot.data?.docs ?? [];
 
         if (tasks.isEmpty) {
-          return const SizedBox();
+          return Center(
+            child: Text(
+              emptyText,
+              style: TextStyle(
+                fontSize: 16,
+                color: ColorsAppTheme.content.shade200,
+              ),
+            ),
+          );
         }
 
         return ListView.separated(

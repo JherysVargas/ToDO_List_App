@@ -34,6 +34,15 @@ class _FormCreateTaskState extends State<FormCreateTask> {
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
     _timePickerSpinnerController = TimePickerSpinnerController();
+    _setDefaultDate();
+  }
+
+  void _setDefaultDate() {
+    final currentDate =
+        context.read<TaskCubit>().state.selectedDate ?? DateTime.now();
+
+    _dateController.text =
+        Jiffy.parseFromDateTime(currentDate).format(pattern: patternDate);
   }
 
   @override

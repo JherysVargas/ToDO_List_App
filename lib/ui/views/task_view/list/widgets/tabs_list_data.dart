@@ -20,16 +20,19 @@ class TabsListData extends StatelessWidget {
             children: [
               StreamListTask(
                 stream: context.read<TaskCubit>().getTask(),
+                emptyText: 'No hay tareas',
               ),
               StreamListTask(
                 stream: context
                     .read<TaskCubit>()
                     .getTaskByStatus([TaskStatus.pending.value]),
+                emptyText: 'No hay tareas pendientes',
               ),
               StreamListTask(
                 stream: context
                     .read<TaskCubit>()
                     .getTaskByStatus([TaskStatus.completed.value]),
+                emptyText: 'No hay tareas completadas',
               ),
             ],
           );

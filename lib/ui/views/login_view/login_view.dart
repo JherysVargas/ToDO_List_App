@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
       SnackBarFloating.show(
         message: 'Error al iniciar sesión',
         context: context,
-        snackBarType: SnackBarType.error,
+        type: SnackBarType.error,
       );
       return;
     }

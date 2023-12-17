@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:todo/core/enums/task.dart';
 import 'package:todo/core/helpers/document_reference_convert.dart';
 import 'package:todo/core/helpers/timestamp_convert.dart';
+import 'package:todo/domain/models/task/translation.dart';
 
 part 'task.g.dart';
 
@@ -17,11 +18,15 @@ class TaskModel {
     this.title = "",
     this.description = "",
     this.status = TaskStatus.pending,
+    this.translation = const TranslationModel(),
   });
 
   final String title;
   final String description;
   final TaskStatus status;
+
+  @JsonKey(includeToJson: false)
+  final TranslationModel translation;
 
   @JsonKey(includeToJson: false)
   @DocumentReferenceConverter()
@@ -40,6 +45,7 @@ class TaskModel {
     DateTime? createdAt,
     String? title,
     String? description,
+    TranslationModel? translation,
   }) =>
       TaskModel(
         date: date ?? this.date,
@@ -48,6 +54,7 @@ class TaskModel {
         title: title ?? this.title,
         description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
+        translation: translation ?? this.translation,
       );
 
   factory TaskModel.fromRawJson(String str) =>

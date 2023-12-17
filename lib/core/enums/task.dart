@@ -1,6 +1,6 @@
 enum TaskStatus {
-  completed('COMPLETED'),
-  pending('PENDING');
+  completed('completed'),
+  pending('pending');
 
   const TaskStatus(this.value);
   final String value;

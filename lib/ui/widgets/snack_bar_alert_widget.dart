@@ -8,9 +8,9 @@ class SnackBarFloating {
     IconData? icon,
     Color? backgroundColor,
     Duration duration = const Duration(seconds: 4),
-    SnackBarType snackBarType = SnackBarType.success,
+    SnackBarType type = SnackBarType.success,
   }) {
-    final typeAlert = snackBarType.type.copyWith(
+    final typeAlert = type.type.copyWith(
       icon: icon,
       label: message,
       color: backgroundColor,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/core/enums/snack_bar_type.dart';
 import 'package:todo/core/providers/tasks_cubit/tasks_cubit.dart';
+import 'package:todo/ui/widgets/snack_bar_alert_widget.dart';
 
 import 'widgets/form.dart';
 
@@ -34,10 +36,10 @@ class CreateTaskView extends StatelessWidget {
     if (state.status == TasksStatus.success) {
       Navigator.pop(context);
     } else if (state.status == TasksStatus.error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error al crear la tarea'),
-        ),
+      SnackBarFloating.show(
+        message: 'Error al crear la tarea',
+        context: context,
+        type: SnackBarType.error,
       );
     }
   }

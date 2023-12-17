@@ -51,34 +51,29 @@ class TaskImpl extends TaskGateway {
 
   @override
   Future<bool> createTask(Map<String, dynamic> data) async {
-    try {
-      await _firestore.collection(_keyCollection).add(data);
-      return true;
-    } on FirebaseException catch (e) {
-      _logger.e(e.message);
+    return _firestore
+        .collection(_keyCollection)
+        .add(data)
+        .then((value) => true)
+        .catchError((onError) {
+      _logger.e(onError);
       return false;
-    }
+    });
   }
 
   @override
   Future<bool> update(DocumentReference ref, Map<String, dynamic> data) async {
-    try {
-      await ref.update(data);
-      return true;
-    } on FirebaseException catch (e) {
-      _logger.e(e.message);
+    return ref.update(data).then((value) => true).catchError((onError) {
+      _logger.e(onError);
       return false;
-    }
+    });
   }
 
   @override
   Future<bool> delete(DocumentReference ref) async {
-    try {
-      await ref.delete();
-      return true;
-    } on FirebaseException catch (e) {
-      _logger.e(e.message);
+    return ref.delete().then((value) => true).catchError((onError) {
+      _logger.e(onError);
       return false;
-    }
+    });
   }
 }
