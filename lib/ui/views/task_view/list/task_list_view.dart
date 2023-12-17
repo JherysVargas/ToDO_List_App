@@ -42,9 +42,16 @@ class TaskListView extends StatelessWidget {
   }
 
   void _onTap(BuildContext context) async {
-    CupertinoScaffold.showCupertinoModalBottomSheet(
-      context: context,
-      builder: (context) => const CreateTaskView(),
-    );
+    if (Theme.of(context).platform == TargetPlatform.android) {
+      showMaterialModalBottomSheet(
+        context: context,
+        builder: (context) => const CreateTaskView(),
+      );
+    } else {
+      CupertinoScaffold.showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) => const CreateTaskView(),
+      );
+    }
   }
 }
